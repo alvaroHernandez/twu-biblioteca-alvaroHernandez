@@ -2,9 +2,14 @@
 [x] get list of available books from library
 [x] library should be initialized before get available books
 [x] library should initialize books at start.
-[ ] library should display start message after app started
-[ ] database initialize method.
+[x] screen should display welcome message after app started
+[x] screen should display book list after welcome message
+
 [x] get book author detail for book id
 [x] get book author year published for book id
-[ ] after book list app should ask for book number for detail
+
 [x] book list should give an incremental id
+
+[ ] database initialize method.
+[ ] after book list app should ask for book number for detail
+

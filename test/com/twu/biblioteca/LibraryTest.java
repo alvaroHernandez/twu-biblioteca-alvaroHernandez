@@ -8,15 +8,16 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
 
-public class ExampleTest {
+
+public class LibraryTest {
+
+    static final String expectedWelcomeMessage = "Welcome!";
 
     @Test
     public void shouldWelcomeMessageAppearAtFirst() {
         Library library = new Library();
-
-        assertEquals("Welcome!", library.start());
+        assertEquals(expectedWelcomeMessage, library.start());
     }
 
     @Test
@@ -30,6 +31,7 @@ public class ExampleTest {
         assertEquals("TDD by Example",books.get(1).getName());
         assertEquals("Head First Java",books.get(2).getName());
 
+
     }
 
     @Test(expected=IllegalAccessException.class)
@@ -39,6 +41,8 @@ public class ExampleTest {
         //Should throw exception
         library.getAvailableBooks();
     }
+
+
 
     @Test
     public void booksInLibraryHasIncrementalId() throws Exception {

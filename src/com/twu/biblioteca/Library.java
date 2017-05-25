@@ -25,7 +25,7 @@ public class Library extends BibliotecaApp {
 
     public ArrayList<Book> getAvailableBooks() throws IllegalAccessException {
         if(!ready)
-            throw  new IllegalAccessException();
+            throw  new IllegalAccessException("Library has not been initialized");
         return books;
     }
 
