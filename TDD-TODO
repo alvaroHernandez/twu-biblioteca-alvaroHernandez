@@ -4,6 +4,7 @@
 [x] library should initialize books at start.
 [ ] library should display start message after app started
 [ ] database initialize method.
-[ ] get book details for book id
+[x] get book author detail for book id
+[x] get book author year published for book id
 [ ] after book list app should ask for book number for detail
-[C] book list should give id
+[x] book list should give an incremental id
