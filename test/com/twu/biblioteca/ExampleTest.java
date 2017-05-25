@@ -2,13 +2,16 @@ package com.twu.biblioteca;
 
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class ExampleTest {
 
     @Test
-    public void welcomeMessageShouldAppearAtFirst() {
+    public void shouldWelcomeMessageAppearAtFirst() {
         Library library = new Library();
 
         assertEquals("Welcome!", library.start());
@@ -19,11 +22,11 @@ public class ExampleTest {
         Library library = new Library();
 
         library.start();
-        Book[] books  = library.listAvailableBooks();
+        ArrayList<Book> books  = library.getAvailableBooks();
 
-        assertEquals("Building Microservices",books[0].getName());
-        assertEquals("TDD by Example",books[1].getName());
-        assertEquals("Head First Java",books[2].getName());
+        assertEquals("Building Microservices",books.get(0).getName());
+        assertEquals("TDD by Example",books.get(1).getName());
+        assertEquals("Head First Java",books.get(2).getName());
 
     }
 
@@ -32,8 +35,8 @@ public class ExampleTest {
         Library library = new Library();
 
         //Should throw exception
-        library.listAvailableBooks();
+        library.getAvailableBooks();
     }
 
-    
+
 }
