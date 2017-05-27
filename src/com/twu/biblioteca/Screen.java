@@ -8,21 +8,31 @@ import java.util.ArrayList;
 public class Screen {
 
     Library library = new Library();
+    private boolean menuEnabled = true;
 
     public Screen() throws IllegalAccessException {
         System.out.println(library.start());
-        listAvailableBooks();
+
+        if(isMenuEnabled()){
+            Menu menu = new Menu("Main Menu");
+            menu.addOption("1. List Books");
+            System.out.println(menu.getMenuString());
+        }else{
+            listAvailableBooks();
+        }
+
     }
 
     public void listAvailableBooks() throws IllegalAccessException {
         System.out.println("Listing available books:\n");
 
-        ArrayList<Book> availableBooks = library.getAvailableBooks();
-        for (Book availableBook : availableBooks) {
-            System.out.println(availableBook.getId() + ". " + availableBook.getName());
-        }
+        System.out.println(library.getAvailableBooksAsRows());
         System.out.println();
         System.out.println("There are no more books to show.");
 
+    }
+
+    public boolean isMenuEnabled() {
+        return menuEnabled;
     }
 }

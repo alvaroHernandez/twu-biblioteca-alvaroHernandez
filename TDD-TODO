@@ -1,15 +1,40 @@
 [x] library init give a welcome message
 [x] get list of available books from library
+[X] print books details for  all books as columns
+[x] menu show list book list after choosing option
+[x] menu should give error message after invalid option
+[x] menu keeps open unless quit is choosed
+
+[ ] customer check-outs a book
+
+[ ] checked-out book doesnt appear in book list
+[ ] menu gives a error if a invalid book is choosen for checkout
+
+
+
+
+
+
+
 [x] library should be initialized before get available books
 [x] library should initialize books at start.
 [x] screen should display welcome message after app started
 [x] screen should display book list after welcome message
-
 [x] get book author detail for book id
 [x] get book author year published for book id
-
 [x] book list should give an incremental id
 
+[x] menu should give custom options options
+[X] menu show detailed book list after choosing option
+[X] print ONE book detail as column
+[ ] after book list app should give list book menu
+
+[ ] menu should give more options
+[X] menu should react to options
+
+
+[ ] refactoring start library (singleton?)
 [ ] database initialize method.
-[ ] after book list app should ask for book number for detail
+
+
 
