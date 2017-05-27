@@ -90,7 +90,7 @@ public class MenuTest {
     }
 
     @Test(expected = IllegalAccessException.class)
-    public void menuDoesntAllowMoreInputAfterQuit() throws Exception {
+    public void menuDoesNotAllowMoreInputAfterQuit() throws Exception {
         Menu menu = new Menu("Main Menu");
         menu.addOption("Option 1");
         menu.addOption("Quit");

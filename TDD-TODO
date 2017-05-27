@@ -5,12 +5,14 @@
 [x] menu should give error message after invalid option
 [x] menu keeps open unless quit is choosed
 
-[ ] customer check-outs a book
+[x] checked-out book doesnt appear in book list
+[x] librarian check-outs a book and he gets a succesful message
+[x] library gives a error if a invalid book is choosen for checkout
 
-[ ] checked-out book doesnt appear in book list
-[ ] menu gives a error if a invalid book is choosen for checkout
-
-
+[x] returned a book and it appears in available books again
+[x] library return a book and he gets a successful message
+[x] library gives an error if a invalid book is choosen for returning
+[x] library can list currently checked-out books
 
 
 
@@ -31,6 +33,10 @@
 
 [ ] menu should give more options
 [X] menu should react to options
+
+[x] hashmap for lbirary and books -> treemap
+[ ] extract inner class Book from Library
+
 
 
 [ ] refactoring start library (singleton?)

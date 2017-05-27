@@ -1,8 +1,6 @@
 package com.twu.biblioteca;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 /**
  * Created by alvarohernandez on 5/25/17.
@@ -12,23 +10,26 @@ public class Library extends BibliotecaApp {
     private static final String welcomeMessage = "Welcome!";
     private boolean ready;
 
-    private ArrayList<Book> books= new ArrayList<Book>();
+    private TreeMap<Integer,Book> availableBooks = new TreeMap<Integer,Book>();
+    private TreeMap<Integer,Book> checkedOutBooks= new TreeMap<Integer,Book>();
 
 
     public String start() {
-        books.add(new Book("Building Microservices",1,"Sam Newman", "2015"));
-        books.add(new Book("TDD by Example",2,"Kent Beck", "2000"));
-        books.add(new Book( "Head First Java",3,"Bert Bates", "2003"));
+
+        //inserting Key:id Value:Book(id)
+        availableBooks.put(1,new Book("Building Microservices",1,"Sam Newman", "2015"));
+        availableBooks.put(2,new Book("TDD by Example",2,"Kent Beck", "2000"));
+        availableBooks.put(3,new Book( "Head First Java",3,"Bert Bates", "2003"));
         ready = true;
 
         return welcomeMessage;
 
     }
 
-    public ArrayList<Book> getAvailableBooks() throws IllegalAccessException {
+    public TreeMap<Integer,Book> getAvailableBooks() throws IllegalAccessException {
         if(!ready)
             throw  new IllegalAccessException("Library has not been initialized");
-        return books;
+        return availableBooks;
     }
 
 
@@ -40,7 +41,7 @@ public class Library extends BibliotecaApp {
 
     public LinkedHashMap<String,Integer> calculateMaxLengthForEachField(){
         LinkedHashMap<String,Integer> maxLengths = Book.getFieldsHeadersLength();
-        for (Book book : books) {
+        for (Book book : availableBooks.values()) {
             HashMap<String,String> details = book.getDetails();
             for (String field : maxLengths.keySet()) {
                 if ( details.get(field).length() > maxLengths.get(field)){
@@ -64,7 +65,7 @@ public class Library extends BibliotecaApp {
     }
 
     private void appendBookData(StringBuilder dataAsColumns, LinkedHashMap<String, Integer> maxLengths) {
-        for (Book book : books) {
+        for (Book book : availableBooks.values()) {
             HashMap<String,String> details = book.getDetails();
             appendDataWithWhitespaces(dataAsColumns, maxLengths, details);
         }
@@ -103,21 +104,51 @@ public class Library extends BibliotecaApp {
         dataAsColumns.append("\n");
     }
 
-    public String getAvailableBooksAsRows() {
+    private String getBooksListAsRows(TreeMap<Integer,Book> database){
         StringBuilder result = new StringBuilder();
-        for (Library.Book availableBook : books) {
+        for (Library.Book availableBook : database.values()) {
             result.append(availableBook.getId() + ". " + availableBook.getTitle());
             result.append("\n");
         }
         return result.toString();
+
+    }
+
+    public String getAvailableBooksAsRows() {
+        return getBooksListAsRows(availableBooks);
+    }
+
+    public String getCheckedOutBooksAsRows() {
+        return getBooksListAsRows(checkedOutBooks);
     }
 
     public String checkOutBook(int id) {
-        return "Book '"+ getBookById(1)+ "' was successfully checked-out";
+
+        Book book = availableBooks.get(id);
+        if(book!= null){
+            checkedOutBooks.put(id,book);
+            availableBooks.remove(id);
+            return  "Book '"+ book.getTitle() + "' was successfully checked-out. Thank you! Enjoy the book";
+        }else{
+            return "Invalid Book Selection";
+        }
+
     }
 
-    private Book getBookById(int id) {
-        return books.get(id);
+    public Book getBookById(int id) {
+        return availableBooks.get(id);
+    }
+
+    public String checkInBook(int id) {
+
+        Book book = checkedOutBooks.get(id);
+        if(book!= null){
+            availableBooks.put(id,book);
+            checkedOutBooks.remove(id);
+            return  "Book '"+ book.getTitle() + "' was successfully checked-in. Thank you for returning it!";
+        }else{
+            return "Invalid Book Selection";
+        }
     }
 
     /**

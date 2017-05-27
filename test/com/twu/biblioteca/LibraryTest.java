@@ -19,6 +19,17 @@ public class LibraryTest {
             "2. TDD by Example\n"+
             "3. Head First Java\n";
 
+    static final String expectedBookListResultAfterCheckoutBookId2  =
+            "1. Building Microservices\n"+
+            "3. Head First Java\n";
+
+    static final String expectedBookListResultAfterCheckoutBookId2And3  =
+            "1. Building Microservices\n";
+
+    static final String currentlyCheckedOutBooks =
+            "2. TDD by Example\n" +
+            "3. Head First Java\n";
+
     static final String expectedBookDetailsResult  =
             "title                     author        year_published    \n"+
             "----------------------------------------------------------\n"+
@@ -32,16 +43,13 @@ public class LibraryTest {
         assertEquals(expectedWelcomeMessage, library.start());
     }
 
+
     @Test
     public void listAvailableBooks() throws Exception {
         Library library = new Library();
 
         library.start();
-        ArrayList<Library.Book> books  = library.getAvailableBooks();
-
-        assertEquals("Building Microservices",books.get(0).getTitle());
-        assertEquals("TDD by Example",books.get(1).getTitle());
-        assertEquals("Head First Java",books.get(2).getTitle());
+        assertEquals(expectedBookListResult,library.getAvailableBooksAsRows());
 
     }
 
@@ -53,35 +61,17 @@ public class LibraryTest {
         library.getAvailableBooks();
     }
 
-
-
-    @Test
-    public void booksInLibraryHasIncrementalId() throws Exception {
-
-        Library library = new Library();
-
-        library.start();
-        ArrayList<Library.Book> books  = library.getAvailableBooks();
-
-        assertEquals(1,books.get(0).getId());
-        assertEquals(2,books.get(1).getId());
-        assertEquals(3,books.get(2).getId());
-
-    }
-
     @Test
     public void bookDetailsHaveAuthorName() throws Exception {
         Library library = new Library();
-
         library.start();
-        ArrayList<Library.Book> books  = library.getAvailableBooks();
 
-        HashMap<String,String> bookDetailsZero = books.get(0).getDetails();
-        HashMap<String,String> bookDetailsOne = books.get(1).getDetails();
+        HashMap<String,String> bookDetails1 = library.getBookById(1).getDetails();
+        HashMap<String,String> bookDetails2 =   library.getBookById(2).getDetails();
 
-        assertEquals("Sam Newman", bookDetailsZero.get(Library.Book.AUTHOR_FIELD));
-        assertNotEquals("Kent Beck", bookDetailsZero.get(Library.Book.AUTHOR_FIELD));
-        assertEquals("Kent Beck", bookDetailsOne.get(Library.Book.AUTHOR_FIELD));
+        assertEquals("Sam Newman", bookDetails1.get(Library.Book.AUTHOR_FIELD));
+        assertNotEquals("Kent Beck", bookDetails1.get(Library.Book.AUTHOR_FIELD));
+        assertEquals("Kent Beck", bookDetails2.get(Library.Book.AUTHOR_FIELD));
 
 
     }
@@ -90,16 +80,14 @@ public class LibraryTest {
     public void bookDetailsHaveYearPublished() throws Exception {
 
         Library library = new Library();
-
         library.start();
-        ArrayList<Library.Book> books  = library.getAvailableBooks();
 
-        HashMap<String,String> bookDetailsZero = books.get(0).getDetails();
-        HashMap<String,String> bookDetailsOne = books.get(1).getDetails();
+        HashMap<String,String> bookDetails1 = library.getBookById(1).getDetails();
+        HashMap<String,String> bookDetails2 =   library.getBookById(2).getDetails();
 
-        assertEquals("2015", bookDetailsZero.get(Library.Book.YEAR_PUBLISHED_FIELD));
-        assertNotEquals("2000", bookDetailsZero.get(Library.Book.YEAR_PUBLISHED_FIELD));
-        assertEquals("2000", bookDetailsOne.get(Library.Book.YEAR_PUBLISHED_FIELD));
+        assertEquals("2015", bookDetails1.get(Library.Book.YEAR_PUBLISHED_FIELD));
+        assertNotEquals("2000", bookDetails1.get(Library.Book.YEAR_PUBLISHED_FIELD));
+        assertEquals("2000", bookDetails2.get(Library.Book.YEAR_PUBLISHED_FIELD));
 
     }
 
@@ -135,7 +123,94 @@ public class LibraryTest {
         Library library = new Library();
         library.start();
 
-        assertEquals("Book 'TDD by Example' was successfully checked-out",library.checkOutBook(2));
+        assertEquals("Book 'TDD by Example' was successfully checked-out. Thank you! Enjoy the book",library.checkOutBook(2));
+    }
 
+    @Test
+    public void checkedOutBookDoesntAppearInAvailableList() throws Exception {
+        Library library = new Library();
+        library.start();
+
+        assertEquals(expectedBookListResult,library.getAvailableBooksAsRows());
+        library.checkOutBook(2);
+        assertEquals(expectedBookListResultAfterCheckoutBookId2,library.getAvailableBooksAsRows());
+        library.checkOutBook(3);
+        assertEquals(expectedBookListResultAfterCheckoutBookId2And3,library.getAvailableBooksAsRows());
+    }
+
+    @Test
+    public void errorMessageIsGivenAfterChoosingInvalidBookForCheckout() throws Exception {
+        Library library = new Library();
+        library.start();
+
+        assertEquals("Invalid Book Selection",library.checkOutBook(-1));
+        assertEquals("Invalid Book Selection",library.checkOutBook(4));
+        assertEquals(expectedBookListResult,library.getAvailableBooksAsRows());
+
+    }
+
+
+    @Test
+    public void errorMessageIsGivenAfterChoosingBookForCheckoutTwice() throws Exception {
+        Library library = new Library();
+        library.start();
+
+        library.checkOutBook(1);
+        assertEquals("Invalid Book Selection",library.checkOutBook(1));
+
+    }
+
+    @Test
+    public void notAvailableBookCanBeCheckedIn() throws Exception {
+
+        Library library = new Library();
+        library.start();
+
+        library.checkOutBook(2);
+        assertEquals("Book 'TDD by Example' was successfully checked-in. Thank you for returning it!",library.checkInBook(2));
+    }
+
+    @Test
+    public void returnedBookApearsInAvailableBooksAgain() throws Exception {
+
+        Library library = new Library();
+        library.start();
+
+        library.checkOutBook(2);
+        assertEquals(expectedBookListResultAfterCheckoutBookId2,library.getAvailableBooksAsRows());
+        library.checkInBook(2);
+        assertEquals(expectedBookListResult,library.getAvailableBooksAsRows());
+    }
+
+    @Test
+    public void libraryShowCurrentlyCheckedOutBooks() throws Exception {
+        Library library = new Library();
+        library.start();
+
+        library.checkOutBook(3);
+        library.checkOutBook(2);
+
+        assertEquals(currentlyCheckedOutBooks,library.getCheckedOutBooksAsRows());
+
+    }
+
+
+    @Test
+    public void errorMessageIsGivenAfterChoosingInvalidBookForCheckIn() throws Exception {
+
+        Library library = new Library();
+        library.start();
+
+        assertEquals("Invalid Book Selection",library.checkInBook(-1));
+        assertEquals("Invalid Book Selection",library.checkInBook(4));
+    }
+
+    @Test
+    public void errorMessageIsGivenAfterChoosingBookForCheckInWhichHasNotBeenCheckedOut() throws Exception {
+
+        Library library = new Library();
+        library.start();
+
+        assertEquals("Invalid Book Selection",library.checkInBook(3));
     }
 }
