@@ -1,13 +1,15 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.library;
+
+import com.twu.biblioteca.BibliotecaApp;
 
 import java.util.*;
 
 /**
  * Created by alvarohernandez on 5/25/17.
  */
-public class Library extends BibliotecaApp {
+public class Shelf extends BibliotecaApp {
 
-    private static final String welcomeMessage = "Welcome!";
+    private static final String readyMessage = "Welcome!";
     private boolean ready;
 
     private TreeMap<Integer,Book> availableBooks = new TreeMap<Integer,Book>();
@@ -22,13 +24,13 @@ public class Library extends BibliotecaApp {
         availableBooks.put(3,new Book( "Head First Java",3,"Bert Bates", "2003"));
         ready = true;
 
-        return welcomeMessage;
+        return readyMessage;
 
     }
 
     public TreeMap<Integer,Book> getAvailableBooks() throws IllegalAccessException {
         if(!ready)
-            throw  new IllegalAccessException("Library has not been initialized");
+            throw  new IllegalAccessException("Shelf has not been initialized");
         return availableBooks;
     }
 
@@ -106,7 +108,7 @@ public class Library extends BibliotecaApp {
 
     private String getBooksListAsRows(TreeMap<Integer,Book> database){
         StringBuilder result = new StringBuilder();
-        for (Library.Book availableBook : database.values()) {
+        for (Book availableBook : database.values()) {
             result.append(availableBook.getId() + ". " + availableBook.getTitle());
             result.append("\n");
         }
@@ -151,53 +153,4 @@ public class Library extends BibliotecaApp {
         }
     }
 
-    /**
-     * Created by alvarohernandez on 5/25/17.
-     */
-    public static class Book {
-
-        private int id;
-        private HashMap<String, String> details;
-
-        public static final String TITLE_FIELD = "title";
-        public static final String AUTHOR_FIELD= "author";
-        public static final String YEAR_PUBLISHED_FIELD= "year_published";
-
-
-        public Book(String name, Integer id, String author, String yearPublished) {
-            this.id = id;
-
-            this.details = new HashMap<String, String>();
-
-            details.put(TITLE_FIELD,name);
-            details.put(AUTHOR_FIELD,author);
-            details.put(YEAR_PUBLISHED_FIELD,yearPublished);
-        }
-
-        public String getTitle() {
-            return details.get(TITLE_FIELD);
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public HashMap<String, String> getDetails() {
-            return details;
-        }
-
-        public static LinkedHashMap<String,Integer> getFieldsHeadersLength(){
-            LinkedHashMap<String,Integer> lengths = new LinkedHashMap<String, Integer>();
-
-            lengths.put(TITLE_FIELD,TITLE_FIELD.length());
-            lengths.put(AUTHOR_FIELD,AUTHOR_FIELD.length());
-            lengths.put(YEAR_PUBLISHED_FIELD,YEAR_PUBLISHED_FIELD.length());
-            return lengths;
-        }
-
-        @Override
-        public String toString(){
-            return this.getTitle();
-        }
-    }
 }

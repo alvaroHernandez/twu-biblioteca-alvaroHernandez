@@ -1,16 +1,16 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.Screen;
 
-import java.util.ArrayList;
+import com.twu.biblioteca.library.Shelf;
 
 /**
  * Created by alvarohernandez on 5/25/17.
  */
-public class Screen {
+public class Printer {
 
-    Library library = new Library();
+    Shelf library = new Shelf();
     private boolean menuEnabled = true;
 
-    public Screen() throws IllegalAccessException {
+    public Printer() throws IllegalAccessException {
         System.out.println(library.start());
 
         if(isMenuEnabled()){

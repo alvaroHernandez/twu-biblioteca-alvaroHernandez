@@ -1,5 +1,6 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.Screen.Printer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,7 +8,6 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.hamcrest.MatcherAssert.*;
 import static org.junit.Assert.*;
 
 /**
@@ -26,14 +26,14 @@ public class ScreenTest {
 
     @Test
     public void screenShouldOutputWelcomeMessageAtStart() throws Exception {
-        Screen screen = new Screen();
+        Printer screen = new Printer();
         String regexp = "^"+LibraryTest.expectedWelcomeMessage+"\\n[\\s\\S]*$";
         assertTrue(outContent.toString().matches(regexp));
     }
 
     @Test
     public void showAvailableBooksListAfterWelcomeMessageIfMenuIsDisabled() throws Exception {
-        Screen screen = new Screen();
+        Printer screen = new Printer();
 
         String expectedOutput =  LibraryTest.expectedWelcomeMessage+"\n" +
                                 "Listing available books:\n\n" +
@@ -51,7 +51,7 @@ public class ScreenTest {
 
     @Test
     public void showMainMenuIfItsEnabled() throws Exception {
-        Screen screen = new Screen();
+        Printer screen = new Printer();
 
         String regexp =  "^"+LibraryTest.expectedWelcomeMessage+"\\n" +
                 "Main Menu:\\n"+

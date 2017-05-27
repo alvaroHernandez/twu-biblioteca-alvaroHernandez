@@ -1,9 +1,7 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.Screen;
 
-import javafx.scene.LightBase;
+import com.twu.biblioteca.library.Shelf;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -50,11 +48,11 @@ public class Menu {
     public String executeOption(String option){
         String result = option + " Selected\n";
         if (option.equals("Book Details")) {
-            Library library = new Library();
+            Shelf library = new Shelf();
             library.start();
             result += library.getDetailedBookDataAsColumns();
         }else if (option.equals("Book List")) {
-            Library library = new Library();
+            Shelf library = new Shelf();
             library.start();
             result += library.getAvailableBooksAsRows();
         }else if(option.equals("Quit")){

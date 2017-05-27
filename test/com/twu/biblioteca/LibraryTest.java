@@ -1,9 +1,10 @@
 package com.twu.biblioteca;
 
 
+import com.twu.biblioteca.library.Book;
+import com.twu.biblioteca.library.Shelf;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
@@ -39,14 +40,14 @@ public class LibraryTest {
 
     @Test
     public void shouldWelcomeMessageAppearAtFirst() {
-        Library library = new Library();
+        Shelf library = new Shelf();
         assertEquals(expectedWelcomeMessage, library.start());
     }
 
 
     @Test
     public void listAvailableBooks() throws Exception {
-        Library library = new Library();
+        Shelf library = new Shelf();
 
         library.start();
         assertEquals(expectedBookListResult,library.getAvailableBooksAsRows());
@@ -55,7 +56,7 @@ public class LibraryTest {
 
     @Test(expected=IllegalAccessException.class)
     public void shouldListAvailableBooksOnlyIfLibraryIsStarted() throws Exception {
-        Library library = new Library();
+        Shelf library = new Shelf();
 
         //Should throw exception
         library.getAvailableBooks();
@@ -63,15 +64,15 @@ public class LibraryTest {
 
     @Test
     public void bookDetailsHaveAuthorName() throws Exception {
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         HashMap<String,String> bookDetails1 = library.getBookById(1).getDetails();
         HashMap<String,String> bookDetails2 =   library.getBookById(2).getDetails();
 
-        assertEquals("Sam Newman", bookDetails1.get(Library.Book.AUTHOR_FIELD));
-        assertNotEquals("Kent Beck", bookDetails1.get(Library.Book.AUTHOR_FIELD));
-        assertEquals("Kent Beck", bookDetails2.get(Library.Book.AUTHOR_FIELD));
+        assertEquals("Sam Newman", bookDetails1.get(Book.AUTHOR_FIELD));
+        assertNotEquals("Kent Beck", bookDetails1.get(Book.AUTHOR_FIELD));
+        assertEquals("Kent Beck", bookDetails2.get(Book.AUTHOR_FIELD));
 
 
     }
@@ -79,22 +80,22 @@ public class LibraryTest {
     @Test
     public void bookDetailsHaveYearPublished() throws Exception {
 
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         HashMap<String,String> bookDetails1 = library.getBookById(1).getDetails();
         HashMap<String,String> bookDetails2 =   library.getBookById(2).getDetails();
 
-        assertEquals("2015", bookDetails1.get(Library.Book.YEAR_PUBLISHED_FIELD));
-        assertNotEquals("2000", bookDetails1.get(Library.Book.YEAR_PUBLISHED_FIELD));
-        assertEquals("2000", bookDetails2.get(Library.Book.YEAR_PUBLISHED_FIELD));
+        assertEquals("2015", bookDetails1.get(Book.YEAR_PUBLISHED_FIELD));
+        assertNotEquals("2000", bookDetails1.get(Book.YEAR_PUBLISHED_FIELD));
+        assertEquals("2000", bookDetails2.get(Book.YEAR_PUBLISHED_FIELD));
 
     }
 
     @Test
     public void libraryGivesDetailsHeadersAsColumns() throws Exception {
 
-        Library library = new Library();
+        Shelf library = new Shelf();
 
         library.start();
 
@@ -108,7 +109,7 @@ public class LibraryTest {
     @Test
     public void getBookDetailsAsColumn() throws Exception {
 
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         String headers = library.getDetailedBookDataAsColumns();
@@ -120,7 +121,7 @@ public class LibraryTest {
     @Test
     public void availableBookCanBeCheckedOut() throws Exception {
 
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         assertEquals("Book 'TDD by Example' was successfully checked-out. Thank you! Enjoy the book",library.checkOutBook(2));
@@ -128,7 +129,7 @@ public class LibraryTest {
 
     @Test
     public void checkedOutBookDoesntAppearInAvailableList() throws Exception {
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         assertEquals(expectedBookListResult,library.getAvailableBooksAsRows());
@@ -140,7 +141,7 @@ public class LibraryTest {
 
     @Test
     public void errorMessageIsGivenAfterChoosingInvalidBookForCheckout() throws Exception {
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         assertEquals("Invalid Book Selection",library.checkOutBook(-1));
@@ -152,7 +153,7 @@ public class LibraryTest {
 
     @Test
     public void errorMessageIsGivenAfterChoosingBookForCheckoutTwice() throws Exception {
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         library.checkOutBook(1);
@@ -163,7 +164,7 @@ public class LibraryTest {
     @Test
     public void notAvailableBookCanBeCheckedIn() throws Exception {
 
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         library.checkOutBook(2);
@@ -173,7 +174,7 @@ public class LibraryTest {
     @Test
     public void returnedBookApearsInAvailableBooksAgain() throws Exception {
 
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         library.checkOutBook(2);
@@ -184,7 +185,7 @@ public class LibraryTest {
 
     @Test
     public void libraryShowCurrentlyCheckedOutBooks() throws Exception {
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         library.checkOutBook(3);
@@ -198,7 +199,7 @@ public class LibraryTest {
     @Test
     public void errorMessageIsGivenAfterChoosingInvalidBookForCheckIn() throws Exception {
 
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         assertEquals("Invalid Book Selection",library.checkInBook(-1));
@@ -208,7 +209,7 @@ public class LibraryTest {
     @Test
     public void errorMessageIsGivenAfterChoosingBookForCheckInWhichHasNotBeenCheckedOut() throws Exception {
 
-        Library library = new Library();
+        Shelf library = new Shelf();
         library.start();
 
         assertEquals("Invalid Book Selection",library.checkInBook(3));
