@@ -1,8 +1,7 @@
 package com.twu.biblioteca.presentation;
 
-import com.twu.biblioteca.controller.Catalog;
+import com.twu.biblioteca.controllers.Catalog;
 
-import java.io.Reader;
 import java.util.Scanner;
 
 /**
@@ -10,14 +9,13 @@ import java.util.Scanner;
  */
 public abstract class View {
 
-    LibraryMenu libraryMenu;
     private boolean menuEnabled = true;
 
     private static final String welcomeMessage = "Welcome to Biblioteca!";
 
-    protected Catalog catalog;
+    Catalog catalog;
 
-    public View(Catalog catalog,boolean menuEnabled){
+    View(Catalog catalog, boolean menuEnabled){
         this.catalog = catalog;
         this.menuEnabled = menuEnabled;
 
@@ -31,7 +29,8 @@ public abstract class View {
 
     abstract LibraryMenu loadMenu();
 
-    public String getWelcomeMessage(){
+    private String getWelcomeMessage(){
+        //library is ready just when a catalog is initialized
         if(catalog!=null){
             return welcomeMessage;
         }
@@ -45,22 +44,27 @@ public abstract class View {
     }
 
     private void setupInteraction(){
-        this.libraryMenu = loadMenu();
+        //load menu according to subclass
+        LibraryMenu libraryMenu = loadMenu();
+
+        //setup interactivity
         Scanner reader = new Scanner(System.in);
         try {
-            interact(reader,libraryMenu);
+            interact(reader, libraryMenu);
         } catch (IllegalAccessException e) {
             System.out.println(e.getMessage());
         }
     }
 
     private void interact(Scanner reader, LibraryMenu libraryMenu) throws IllegalAccessException {
+        //keeps asking for input until menu receive quit signal
         while(!libraryMenu.isClosed()){
             System.out.print(libraryMenu.getMenuString());
             String input = reader.nextLine();
             String result = libraryMenu.selectOption(input);
             System.out.print(result);
 
+            //check if menu need argument for the las option selected in order to continue
             if(libraryMenu.isWaitingForOptionArgument()){
                 input = reader.nextLine();
                 result  = libraryMenu.sendOptionArgument(input);

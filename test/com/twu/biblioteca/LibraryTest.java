@@ -2,7 +2,7 @@ package com.twu.biblioteca;
 
 
 import com.twu.biblioteca.entities.Book;
-import com.twu.biblioteca.controller.Catalog;
+import com.twu.biblioteca.controllers.Catalog;
 import org.junit.Test;
 
 import java.util.HashMap;

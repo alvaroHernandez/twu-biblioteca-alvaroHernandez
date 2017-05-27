@@ -1,6 +1,6 @@
 package com.twu.biblioteca.presentation;
 
-import com.twu.biblioteca.controller.Catalog;
+import com.twu.biblioteca.controllers.Catalog;
 
 import java.util.LinkedList;
 
@@ -26,7 +26,7 @@ public class LibraryMenu {
     private Catalog catalog;
     private String name;
     private boolean opened;
-    LinkedList<String> options = new LinkedList<String>();
+    private LinkedList<String> options = new LinkedList<String>();
     private String waitingForArgument;
 
     public LibraryMenu(String name, Catalog catalog) {
@@ -65,6 +65,7 @@ public class LibraryMenu {
     }
 
     private String executeOption(String option){
+        //compose result string foreach possible option
         String result = option + " Selected\n";
         if (option.equals(BOOKS_LIST_OPTION)) {
             result += catalog.getAvailableBooksListString();
@@ -105,8 +106,9 @@ public class LibraryMenu {
 
     public String sendOptionArgument(String argument){
         String result = null;
-        //currently we are only waiting for int
+
         try{
+            //parse argument (currently we are only waiting for int) and send to last selected option in the menu
             int value = Integer.valueOf(argument);
             if(waitingForArgument.equals(BOOK_CHECKOUT_OPTION)){
                 result = catalog.checkOutBook(value);
@@ -114,9 +116,11 @@ public class LibraryMenu {
             if(waitingForArgument.equals(BOOK_CHECKIN_OPTION)){
                 result = catalog.checkInBook(value);
             }
+
         }catch (NumberFormatException e){
             result = "Invalid Book Selection";
         }
+        //clean last selection option
         waitingForArgument  = null;
         return result;
     }
@@ -125,6 +129,7 @@ public class LibraryMenu {
         if(!opened)
             throw new IllegalAccessException("LibraryMenu is Closed");
         try{
+            //using offset (1) to map from input selection to array index
             int value = Integer.valueOf(i)-1;
             if(value >= 0 && value < options.size()){
                 return executeOption(options.get(value));

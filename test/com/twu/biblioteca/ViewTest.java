@@ -2,7 +2,7 @@ package com.twu.biblioteca;
 
 import com.twu.biblioteca.presentation.CustomerView;
 import com.twu.biblioteca.presentation.View;
-import com.twu.biblioteca.controller.Catalog;
+import com.twu.biblioteca.controllers.Catalog;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class ViewTest {
     @Before
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
-        //System.setErr(new PrintStream(errContent));
+        System.setErr(new PrintStream(errContent));
     }
 
     @Test
@@ -54,7 +54,11 @@ public class ViewTest {
         }
     }
 
-    /* testing interactivity
+
+    /* Testing interactivity */
+    /* I'm not sure how (if I should) to test interactivity */
+
+    /*
     @Test
     public void showMainMenuIfItsEnabled() throws Exception {
         View printer = new View(new Catalog(),true);
@@ -75,6 +79,6 @@ public class ViewTest {
     @After
     public void cleanUpStreams() {
         System.setOut(null);
-        //System.setErr(null);
+        System.setErr(null);
     }
 }

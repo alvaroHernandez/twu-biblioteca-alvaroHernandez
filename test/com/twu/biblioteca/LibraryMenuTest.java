@@ -1,7 +1,7 @@
 package com.twu.biblioteca;
 
 import com.twu.biblioteca.presentation.LibraryMenu;
-import com.twu.biblioteca.controller.Catalog;
+import com.twu.biblioteca.controllers.Catalog;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;

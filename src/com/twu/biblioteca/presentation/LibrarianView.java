@@ -1,6 +1,6 @@
 package com.twu.biblioteca.presentation;
 
-import com.twu.biblioteca.controller.Catalog;
+import com.twu.biblioteca.controllers.Catalog;
 
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ import java.util.Scanner;
  * Created by alvarohernandez on 5/27/17.
  */
 public class LibrarianView extends View {
-    Scanner reader;
+    private Scanner reader;
 
     public LibrarianView(Catalog catalog, boolean menuEnabled) {
         super(catalog, menuEnabled);
@@ -24,21 +24,5 @@ public class LibrarianView extends View {
         libraryMenu.addOption(LibraryMenu.QUIT_OPTION);
         return libraryMenu;
     }
-
-
-    public void checkIfIsWaitingForBookID(String result){
-        if(result.contains(LibraryMenu.BOOK_CHECKOUT_PROMPT_MESSAGE)){
-            String input = reader.nextLine();
-            int bookId = Integer.parseInt(input);
-            result = catalog.checkOutBook(bookId);
-            System.out.println(result);
-        }else if (result.contains(LibraryMenu.BOOK_CHECKOUT_PROMPT_MESSAGE)){
-            String input = reader.nextLine();
-            int bookId = Integer.parseInt(input);
-            result = catalog.checkInBook(bookId);
-            System.out.println(result);
-        }
-    }
-
 
 }

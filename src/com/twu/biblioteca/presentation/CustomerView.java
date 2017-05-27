@@ -1,6 +1,6 @@
 package com.twu.biblioteca.presentation;
 
-import com.twu.biblioteca.controller.Catalog;
+import com.twu.biblioteca.controllers.Catalog;
 
 /**
  * Created by alvarohernandez on 5/27/17.

@@ -30,7 +30,7 @@
 [X] libraryMenu show detailed book list after choosing option
 [X] print ONE book detail as column
 
-[ ] libraryMenu should give more options
+[x] libraryMenu should give more options
 [X] libraryMenu should react to options
 
 [x] hashmap for lbirary and books -> treemap
