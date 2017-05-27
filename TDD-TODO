@@ -1,9 +1,9 @@
 [x] library init give a welcome message
 [x] get list of available books from library
 [X] print books details for  all books as columns
-[x] menu show list book list after choosing option
-[x] menu should give error message after invalid option
-[x] menu keeps open unless quit is choosed
+[x] libraryMenu show list book list after choosing option
+[x] libraryMenu should give error message after invalid option
+[x] libraryMenu keeps open unless quit is choosed
 
 [x] checked-out book doesnt appear in book list
 [x] librarian check-outs a book and he gets a succesful message
@@ -26,21 +26,19 @@
 [x] get book author year published for book id
 [x] book list should give an incremental id
 
-[x] menu should give custom options options
-[X] menu show detailed book list after choosing option
+[x] libraryMenu should give custom options options
+[X] libraryMenu show detailed book list after choosing option
 [X] print ONE book detail as column
-[ ] after book list app should give list book menu
 
-[ ] menu should give more options
-[X] menu should react to options
+[ ] libraryMenu should give more options
+[X] libraryMenu should react to options
 
 [x] hashmap for lbirary and books -> treemap
-[ ] extract inner class Book from Library
+[x] extract inner class Book from Library
 
 
-
-[ ] refactoring start library (singleton?)
-[ ] database initialize method.
+[x] refactoring start library (singleton?) -> Dependency injection
+[x] database initialize method.
 
 
 

@@ -1,4 +1,4 @@
-package com.twu.biblioteca.library;
+package com.twu.biblioteca.entities;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -9,8 +9,7 @@ import java.util.LinkedHashMap;
 public class Book {
 
     private int id;
-    private HashMap<String, String> details;
-
+    private HashMap<String, String> details = new HashMap<String, String>();
     public static final String TITLE_FIELD = "title";
     public static final String AUTHOR_FIELD= "author";
     public static final String YEAR_PUBLISHED_FIELD= "year_published";
@@ -18,20 +17,17 @@ public class Book {
 
     public Book(String name, Integer id, String author, String yearPublished) {
         this.id = id;
-
-        this.details = new HashMap<String, String>();
-
         details.put(TITLE_FIELD,name);
         details.put(AUTHOR_FIELD,author);
         details.put(YEAR_PUBLISHED_FIELD,yearPublished);
     }
 
-    public String getTitle() {
-        return details.get(TITLE_FIELD);
-    }
-
     public int getId() {
         return id;
+    }
+
+    public String getTitle() {
+        return details.get(TITLE_FIELD);
     }
 
     public HashMap<String, String> getDetails() {
