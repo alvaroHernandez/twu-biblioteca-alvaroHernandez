@@ -1,35 +1,41 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.services;
 
 
+import com.twu.biblioteca.controllers.LibraryController;
 import com.twu.biblioteca.entities.Book;
-import com.twu.biblioteca.controllers.Catalog;
+import com.twu.biblioteca.presentation.View;
+import com.twu.biblioteca.services.Catalog;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 
-public class LibraryTest {
+public class CatalogTest {
 
-    static final String expectedBookListResult  =
+
+    //BOOKS TEST EXPECTED RESULT
+
+    public static final String expectedBookListResult  =
             "1. Building Microservices\n"+
             "2. TDD by Example\n"+
             "3. Head First Java\n";
 
-    static final String expectedBookListResultAfterCheckoutBookId2  =
+    public static final String expectedBookListResultAfterCheckoutBookId2  =
             "1. Building Microservices\n"+
             "3. Head First Java\n";
 
-    static final String expectedBookListResultAfterCheckoutBookId2And3  =
+    public static final String expectedBookListResultAfterCheckoutBookId2And3  =
             "1. Building Microservices\n";
 
-    static final String currentlyCheckedOutBooks =
+    public static final String currentlyCheckedOutBooks =
             "2. TDD by Example\n" +
             "3. Head First Java\n";
 
-    static final String expectedBookDetailsResult  =
+    public static final String expectedBookDetailsResult  =
             "title                     author        year_published    \n"+
             "----------------------------------------------------------\n"+
             "Building Microservices    Sam Newman    2015              \n"+
@@ -38,10 +44,34 @@ public class LibraryTest {
 
 
 
+    //MOVIES TEST EXPECTED RESULT
+
+    public static final String expectedBookMoviesResult  =
+            "1. Killswitch\n"+
+            "2. Wonder Woman\n"+
+            "3. Logan\n";
+
+
+    public static final String expectedMoviesDetailsResult  =
+            "name            year    director          rating    \n"+
+            "----------------------------------------------------\n"+
+            "Killswitch      2004    Ali Akbarzadeh    3         \n"+
+            "Wonder Woman    2017    Patty Jenkins     5         \n"+
+            "Logan           2017    James Mangold     4         \n";
+
+
+    private TreeMap<Integer,Book> defaultAvailableBooks() {
+        TreeMap<Integer,Book> availableBooks = new TreeMap<Integer,Book>();
+        availableBooks.put(1,new Book("Building Microservices",1,"Sam Newman", "2015"));
+        availableBooks.put(2,new Book("TDD by Example",2,"Kent Beck", "2000"));
+        availableBooks.put(3,new Book( "Head First Java",3,"Bert Bates", "2003"));
+        return availableBooks;
+    }
+
     @Test
     public void listAvailableBooks() throws Exception {
         Catalog library = new Catalog();
-        assertEquals(expectedBookListResult,library.getAvailableBooksListString());
+        assertEquals(defaultAvailableBooks().toString(),library.getAvailableBooks().toString());
 
     }
 
@@ -73,29 +103,7 @@ public class LibraryTest {
 
     }
 
-    @Test
-    public void libraryGivesDetailsHeadersAsColumns() throws Exception {
 
-        Catalog library = new Catalog();
-
-
-        String headers = library.getDetailHeadersAsColumns();
-        String expectedHeaders = "title\t\t" + "author\t\t" + "year_published";
-
-        assertEquals(expectedHeaders,headers);
-    }
-
-
-    @Test
-    public void getBookDetailsAsColumn() throws Exception {
-
-        Catalog library = new Catalog();
-
-        String headers = library.getDetailedBookDataAsColumnsString();
-
-        assertEquals(expectedBookDetailsResult,headers);
-
-    }
 
     @Test
     public void availableBookCanBeCheckedOut() throws Exception {
@@ -107,22 +115,29 @@ public class LibraryTest {
 
     @Test
     public void checkedOutBookDoesntAppearInAvailableList() throws Exception {
-        Catalog library = new Catalog();
+        TreeMap<Integer,Book> availableBooks = defaultAvailableBooks();
 
-        assertEquals(expectedBookListResult,library.getAvailableBooksListString());
-        library.checkOutBook(2);
-        assertEquals(expectedBookListResultAfterCheckoutBookId2,library.getAvailableBooksListString());
-        library.checkOutBook(3);
-        assertEquals(expectedBookListResultAfterCheckoutBookId2And3,library.getAvailableBooksListString());
+        Catalog catalog= new Catalog();
+
+        assertEquals(availableBooks.toString(),catalog.getAvailableBooks().toString());
+
+        catalog.checkOutBook(2);
+        availableBooks.remove(2);
+
+        assertEquals(availableBooks.toString(),catalog.getAvailableBooks().toString());
+        catalog.checkOutBook(3);
+
+        availableBooks.remove(3);
+        assertEquals(availableBooks.toString(),catalog.getAvailableBooks().toString());
     }
+
 
     @Test
     public void errorMessageIsGivenAfterChoosingInvalidBookForCheckout() throws Exception {
-        Catalog library = new Catalog();
+        Catalog catalog = new Catalog();
         
-        assertEquals("Invalid Book Selection",library.checkOutBook(-1));
-        assertEquals("Invalid Book Selection",library.checkOutBook(4));
-        assertEquals(expectedBookListResult,library.getAvailableBooksListString());
+        assertEquals("Invalid Book Selection",catalog.checkOutBook(-1));
+        assertEquals("Invalid Book Selection",catalog.checkOutBook(4));
 
     }
 
@@ -147,24 +162,14 @@ public class LibraryTest {
 
     @Test
     public void returnedBookAppearsInAvailableBooksAgain() throws Exception {
+        TreeMap<Integer,Book> availableBooks = defaultAvailableBooks();
+        Catalog catalog = new Catalog();
 
-        Catalog library = new Catalog();
-
-        library.checkOutBook(2);
-        assertEquals(expectedBookListResultAfterCheckoutBookId2,library.getAvailableBooksListString());
-        library.checkInBook(2);
-        assertEquals(expectedBookListResult,library.getAvailableBooksListString());
-    }
-
-    @Test
-    public void libraryShowCurrentlyCheckedOutBooks() throws Exception {
-        Catalog library = new Catalog();
-
-        library.checkOutBook(3);
-        library.checkOutBook(2);
-
-        assertEquals(currentlyCheckedOutBooks,library.getCheckedOutBooksAsRows());
-
+        catalog.checkOutBook(2);
+        availableBooks.remove(2);
+        assertEquals(availableBooks.toString(),catalog.getAvailableBooks().toString());
+        catalog.checkInBook(2);
+        assertEquals(defaultAvailableBooks().toString(),catalog.getAvailableBooks().toString());
     }
 
 

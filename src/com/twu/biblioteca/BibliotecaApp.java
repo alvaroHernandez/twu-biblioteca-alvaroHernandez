@@ -1,13 +1,16 @@
 package com.twu.biblioteca;
 
-import com.twu.biblioteca.controllers.Catalog;
-import com.twu.biblioteca.presentation.CustomerView;
-import com.twu.biblioteca.presentation.LibrarianView;
+import com.twu.biblioteca.controllers.LibraryController;
+import com.twu.biblioteca.controllers.CustomerMenu;
+import com.twu.biblioteca.controllers.LibrarianMenu;
+import com.twu.biblioteca.controllers.LibraryMenu;
+import com.twu.biblioteca.presentation.View;
+import com.twu.biblioteca.services.Catalog;
 
 public class BibliotecaApp {
 
-    private static final String LIBRARIAN_USER = "librarian";
-    private static final String CUSTOMER_USER = "customer";
+    public static final String LIBRARIAN_USER = "librarian";
+    public static final String CUSTOMER_USER = "customer";
 
     private static final String MENU_ENABLED_ARGUMENT = "-m";
 
@@ -22,15 +25,17 @@ public class BibliotecaApp {
     public static void main(String[] args) {
         ParsedArguments parsedArguments = ParsedArguments.parseArguments(args);
 
-        //create customer or librarian view and enable menu interactivity according to arguments
         if(parsedArguments != null) {
-            if (LIBRARIAN_USER.equals(parsedArguments.user)) {
-                LibrarianView s = new LibrarianView(new Catalog(), parsedArguments.menuEnabled);
-                return;
-            } else if (CUSTOMER_USER.equals( parsedArguments.user)) {
-                CustomerView s = new CustomerView(new Catalog(),  parsedArguments.menuEnabled);
-                return;
+            View view = new View();
+            LibraryController controller = new LibraryController(new Catalog(),view);
+            if(parsedArguments.menuEnabled){
+                LibraryMenu menu = LibrarianMenu.createMenu(parsedArguments.user,controller);
+                if(menu!= null)
+                    menu.setupInteraction(menu);
+            }else{
+                controller.getAvailableBooks();
             }
+            return;
         }
         printUsage();
     }
@@ -51,13 +56,20 @@ public class BibliotecaApp {
 
         private static ParsedArguments parseArguments(String[] args){
             if(args.length == 2){
-                if(MENU_ENABLED_ARGUMENT.equals(args[0])) {
+                if(MENU_ENABLED_ARGUMENT.equals(args[0]) && validateUser(args[1])) {
                     return new ParsedArguments(args[1], true);
                 }
-            }else if (args.length == 1){
-                return new ParsedArguments(args[1],false);
+            }else if (args.length == 1 && validateUser(args[0])){
+                return new ParsedArguments(args[0],false);
             }
             return null;
+        }
+
+        private static boolean validateUser(String user) {
+            if (user.equals(LIBRARIAN_USER) || user.equals(CUSTOMER_USER)) {
+                return true;
+            }
+            return false;
         }
     }
 

@@ -6,20 +6,22 @@ import java.util.LinkedHashMap;
 /**
  * Created by alvarohernandez on 5/25/17.
  */
-public class Book {
+public class Book implements LibraryElement{
 
-    private int id;
-    private HashMap<String, String> details = new HashMap<String, String>();
     public static final String TITLE_FIELD = "title";
     public static final String AUTHOR_FIELD= "author";
     public static final String YEAR_PUBLISHED_FIELD= "year_published";
 
+    private int id;
+    private String title;
+    private String author;
+    private String yearPublished;
 
-    public Book(String name, Integer id, String author, String yearPublished) {
+    public Book(String title, Integer id, String author, String yearPublished) {
         this.id = id;
-        details.put(TITLE_FIELD,name);
-        details.put(AUTHOR_FIELD,author);
-        details.put(YEAR_PUBLISHED_FIELD,yearPublished);
+        this.title = title;
+        this.author = author;
+        this.yearPublished = yearPublished;
     }
 
     public int getId() {
@@ -27,24 +29,32 @@ public class Book {
     }
 
     public String getTitle() {
-        return details.get(TITLE_FIELD);
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getYearPublished() {
+        return yearPublished;
     }
 
     public HashMap<String, String> getDetails() {
+        HashMap<String, String> details = new HashMap<String, String>();
+        details.put(TITLE_FIELD,title);
+        details.put(AUTHOR_FIELD,author);
+        details.put(YEAR_PUBLISHED_FIELD,yearPublished);
         return details;
-    }
-
-    public static LinkedHashMap<String,Integer> getFieldsHeadersLength(){
-        LinkedHashMap<String,Integer> lengths = new LinkedHashMap<String, Integer>();
-
-        lengths.put(TITLE_FIELD,TITLE_FIELD.length());
-        lengths.put(AUTHOR_FIELD,AUTHOR_FIELD.length());
-        lengths.put(YEAR_PUBLISHED_FIELD,YEAR_PUBLISHED_FIELD.length());
-        return lengths;
     }
 
     @Override
     public String toString(){
         return this.getTitle();
+    }
+
+    @Override
+    public String getAsSimpleListElement() {
+        return String.valueOf(id).concat(". ").concat(title).concat("\n");
     }
 }

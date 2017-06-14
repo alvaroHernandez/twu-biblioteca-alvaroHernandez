@@ -1,9 +1,9 @@
 [x] library init give a welcome message
 [x] get list of available books from library
 [X] print books details for  all books as columns
-[x] libraryMenu show list book list after choosing option
-[x] libraryMenu should give error message after invalid option
-[x] libraryMenu keeps open unless quit is choosed
+[x] libraryController show list book list after choosing option
+[x] libraryController should give error message after invalid option
+[x] libraryController keeps open unless quit is choosed
 
 [x] checked-out book doesnt appear in book list
 [x] librarian check-outs a book and he gets a succesful message
@@ -15,9 +15,6 @@
 [x] library can list currently checked-out books
 
 
-
-
-
 [x] library should be initialized before get available books
 [x] library should initialize books at start.
 [x] screen should display welcome message after app started
@@ -26,12 +23,12 @@
 [x] get book author year published for book id
 [x] book list should give an incremental id
 
-[x] libraryMenu should give custom options options
-[X] libraryMenu show detailed book list after choosing option
+[x] libraryController should give custom options options
+[X] libraryController show detailed book list after choosing option
 [X] print ONE book detail as column
 
-[x] libraryMenu should give more options
-[X] libraryMenu should react to options
+[x] libraryController should give more options
+[X] libraryController should react to options
 
 [x] hashmap for lbirary and books -> treemap
 [x] extract inner class Book from Library
@@ -39,6 +36,16 @@
 
 [x] refactoring start library (singleton?) -> Dependency injection
 [x] database initialize method.
+
+
+[] customer view list movies
+[x] movies has   have a name
+[x] movies has a year
+[X] movies has a director
+[x] movies have a rating
+[x] rating is integer from 0 to 5
+[x] library menu show movie list after movie list selected
+[] library menu show movie details after movie detailed list selected
 
 
 
