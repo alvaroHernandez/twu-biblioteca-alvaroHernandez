@@ -17,10 +17,13 @@ public class Book implements LibraryElement{
     private String author;
     private String yearPublished;
 
+    private String currentOwner;
+
     public Book(String title, Integer id, String author, String yearPublished) {
         this.id = id;
         this.title = title;
         this.author = author;
+        validateYear(yearPublished);
         this.yearPublished = yearPublished;
     }
 
@@ -40,6 +43,12 @@ public class Book implements LibraryElement{
         return yearPublished;
     }
 
+    private void validateYear(String year) {
+        if(!year.matches("^\\d{4}$")){
+            throw new IllegalArgumentException("Year is not a valid four digits string");
+        }
+    }
+
     public HashMap<String, String> getDetails() {
         HashMap<String, String> details = new HashMap<String, String>();
         details.put(TITLE_FIELD,title);
@@ -49,12 +58,28 @@ public class Book implements LibraryElement{
     }
 
     @Override
+    public String getCurrentOwner() {
+        return currentOwner;
+    }
+
+    @Override
+    public void setCurrentOwner(String currentOwner) {
+        this.currentOwner = currentOwner;
+    }
+
+    @Override
     public String toString(){
         return this.getTitle();
     }
 
     @Override
     public String getAsSimpleListElement() {
-        return String.valueOf(id).concat(". ").concat(title).concat("\n");
+        StringBuilder elementString = new StringBuilder();
+        elementString.append(id).append(". ").append(title);
+        if(currentOwner != null){
+            elementString.append(" - CheckedOutBy: ").append(currentOwner);
+        }
+        elementString.append("\n");
+        return  elementString.toString();
     }
 }

@@ -1,5 +1,6 @@
 package com.twu.biblioteca.controllers;
 
+import java.io.InputStream;
 import java.util.Scanner;
 
 /**
@@ -9,7 +10,11 @@ public class LibrarianMenu extends LibraryMenu {
     private Scanner reader;
 
     public LibrarianMenu(LibraryController libraryController) {
-        super("Librarian Menu",libraryController);
+        this(System.in,libraryController);
+    }
+
+    public LibrarianMenu(InputStream in, LibraryController libraryController) {
+        super(in,"Librarian Menu",libraryController);
     }
 
     @Override
@@ -18,6 +23,10 @@ public class LibrarianMenu extends LibraryMenu {
         addOption(LibraryMenu.BOOKS_DETAILS_OPTION);
         addOption(LibraryMenu.BOOK_CHECKOUT_OPTION);
         addOption(LibraryMenu.BOOK_CHECKIN_OPTION);
+        addOption(LibraryMenu.MOVIES_LIST_OPTION);
+        addOption(LibraryMenu.MOVIES_DETAILS_OPTION);
+        addOption(LibraryMenu.MOVIE_CHECKOUT_OPTION);
+        addOption(LibraryMenu.MOVIE_CHECKIN_OPTION);
         addOption(LibraryMenu.QUIT_OPTION);
         return this;
     }

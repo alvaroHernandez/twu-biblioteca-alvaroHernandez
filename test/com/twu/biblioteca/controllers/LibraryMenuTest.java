@@ -1,7 +1,6 @@
 package com.twu.biblioteca.controllers;
 
 import com.twu.biblioteca.presentation.View;
-import com.twu.biblioteca.services.CatalogTest;
 import com.twu.biblioteca.services.Catalog;
 import org.junit.Test;
 
@@ -24,7 +23,7 @@ public class LibraryMenuTest {
         String option2 = "List Books Details";
         String option3 = "Quit";
 
-        LibraryMenu libraryMenu = new CustomerMenu(new LibraryController(new Catalog(),new View()));
+        LibraryMenu libraryMenu = new LibraryMenu("Main Menu",new LibraryController(new Catalog(),new View()));
 
         libraryMenu.addOption(option1);
         libraryMenu.addOption(option2);
@@ -41,14 +40,14 @@ public class LibraryMenuTest {
         String option1 = "List Books";
         String option2 = "List Books Details";
 
-        LibraryMenu libraryMenu = new CustomerMenu(new LibraryController(new Catalog(),new View()));
+        LibraryMenu libraryMenu = new LibraryMenu("Main Menu",new LibraryController(new Catalog(),new View()));
 
         libraryMenu.addOption(option1);
         libraryMenu.addOption(option2);
 
         String expectedList =
                 "\n-------------------------------------\n" +
-                "Customer Menu:"+
+                "Main Menu:"+
                 "\n-------------------------------------\n" +
                 "1. List Books\n"+
                 "2. List Books Details\n" +
@@ -60,16 +59,14 @@ public class LibraryMenuTest {
 
     @Test
     public void getMenuName() throws Exception {
-        LibraryMenu customerMenu = new CustomerMenu(new LibraryController(new Catalog(),new View()));
-        LibraryMenu libraryMenu = new LibrarianMenu(new LibraryController(new Catalog(),new View()));
+        LibraryMenu librarianMenu = new LibrarianMenu(new LibraryController(new Catalog(),new View()));
 
-        assertEquals("Customer Menu", customerMenu.getName());
-        assertEquals("Librarian Menu", libraryMenu.getName());
+        assertEquals("Librarian Menu", librarianMenu.getName());
     }
 
     @Test
     public void menuReceiveInvalidCommand() throws Exception {
-        LibraryMenu libraryMenu = new CustomerMenu(new LibraryController(new Catalog(),new View()));
+        LibraryMenu libraryMenu = new LibraryMenu("Main Menu",new LibraryController(new Catalog(),new View()));
 
         libraryMenu.addOption("Option 1");
 
@@ -82,7 +79,7 @@ public class LibraryMenuTest {
 
     @Test
     public void menuReceiveValidCommand() throws IllegalAccessException {
-        LibraryMenu libraryMenu = new CustomerMenu(new LibraryController(new Catalog(),new View()));
+        LibraryMenu libraryMenu = new LibraryMenu("Main Menu",new LibraryController(new Catalog(),new View()));
         String optionName1 = "Option 1";
         String optionName2 = "Option 2";
         libraryMenu.addOption(optionName1);
@@ -96,7 +93,7 @@ public class LibraryMenuTest {
 
     @Test(expected = IllegalAccessException.class)
     public void menuDoesNotAllowMoreInputAfterQuit() throws Exception {
-        LibraryMenu libraryMenu = new CustomerMenu(new LibraryController(new Catalog(),new View()));
+        LibraryMenu libraryMenu = new LibraryMenu("Main Menu",new LibraryController(new Catalog(),new View()));
         libraryMenu.addOption("Option 1");
         libraryMenu.addOption("Quit");
 
@@ -108,8 +105,6 @@ public class LibraryMenuTest {
         libraryMenu.selectOption("1");
 
     }
-
-
 
 
 }

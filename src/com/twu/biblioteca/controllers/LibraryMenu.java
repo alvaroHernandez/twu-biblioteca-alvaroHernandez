@@ -1,45 +1,59 @@
 package com.twu.biblioteca.controllers;
 
 import com.twu.biblioteca.BibliotecaApp;
-import com.twu.biblioteca.presentation.View;
-import com.twu.biblioteca.services.Catalog;
 
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
  * Created by alvarohernandez on 6/13/17.
  */
-public abstract class LibraryMenu {
+public class LibraryMenu {
 
     private static final String INVALID_OPTION_MESSAGE = "Select a valid option!\n";;
     private static final String QUIT_MESSAGE = "Bye!";
     public static final String BOOK_CHECKOUT_PROMPT_MESSAGE = "Please, type the id for the book you would like to check out:";
     public static final String BOOK_CHECKIN_PROMPT_MESSAGE = "Please, type the id for the book you would like to check in:";
 
-    public static final String BOOKS_LIST_OPTION = "Books List";
-    public static final String BOOKS_DETAILS_OPTION = "Books Details";
+    public static final String MOVIE_CHECKOUT_PROMPT_MESSAGE = "Please, type the id for the movie you would like to check out:";
+    public static final String MOVIE_CHECKIN_PROMPT_MESSAGE = "Please, type the id for the movie you would like to check in:";
 
+    public static final String BOOKS_LIST_OPTION = "Books List";
     public static final String MOVIES_LIST_OPTION = "Movies List";
+
+    public static final String BOOKS_DETAILS_OPTION = "Books Details";
     public static final String MOVIES_DETAILS_OPTION = "Movies Details";
 
     public static final String BOOK_CHECKIN_OPTION = "Book Check-In";
+    public static final String MOVIE_CHECKIN_OPTION = "Movie Check-In";
+
     public static final String BOOK_CHECKOUT_OPTION = "Book Check-Out";
+    public static final String MOVIE_CHECKOUT_OPTION = "Movie Check-Out";
+
+    public static final String LISTING_AVAILABLE_BOOKS_MESSAGE = "Listing Available Books:";
+    public static final String LISTING_AVAILABLE_MOVIES_MESSAGE = "Listing Available Movies:";
 
     public static final String QUIT_OPTION = "Quit";
-    public static final String LISTING_AVAILABLE_BOOKS_MESSAGE = "Listing Available Books:";
+    private InputStream systemIn;
 
     private String name;
     private LinkedList<String> options = new LinkedList<String>();
     private String waitingForArgument;
     private boolean opened;
-    private LibraryController libraryController;
+    protected LibraryController libraryController;
+    public LibraryMenu(String name, LibraryController libraryController) {
+        this(System.in,name,libraryController);
+    }
 
-    public LibraryMenu(String name,LibraryController libraryController) {
+    public LibraryMenu(InputStream in, String name, LibraryController libraryController) {
+        systemIn = in;
         this.name = name;
         this.opened = true;
         this.libraryController = libraryController;
+        loadMenu();
     }
+
 
     public static LibraryMenu createMenu(String userType, LibraryController controller){
         if (BibliotecaApp.LIBRARIAN_USER.equals(userType)) {
@@ -50,11 +64,13 @@ public abstract class LibraryMenu {
         return  null;
     }
 
-    abstract LibraryMenu loadMenu();
+    LibraryMenu loadMenu() {
+        return this;
+    }
 
     public void setupInteraction(LibraryMenu menu){
         //setup interactivity
-        Scanner reader = new Scanner(System.in);
+        Scanner reader = new Scanner(systemIn);
         try {
             interact(reader, menu);
         } catch (IllegalAccessException e) {
@@ -113,8 +129,12 @@ public abstract class LibraryMenu {
         libraryController.sendMessage(optionSelectedMessage);
         if (option.equals(BOOKS_LIST_OPTION)) {
             libraryController.getAvailableBooksListString();
+        }else if(option.equals(MOVIES_LIST_OPTION)) {
+            libraryController.getAvailableMoviesListString();
         }else if (option.equals(BOOKS_DETAILS_OPTION)) {
             libraryController.getDetailedBookDataAsColumnsString();
+        }else if (option.equals(MOVIES_DETAILS_OPTION)) {
+            libraryController.getDetailedMovieDataAsColumnsString();
         }else if(option.equals(BOOK_CHECKOUT_OPTION)){
             if(libraryController.thereAreAvailableBooksForCheckOut()) {
                 libraryController.sendMessage(LISTING_AVAILABLE_BOOKS_MESSAGE);
@@ -123,6 +143,15 @@ public abstract class LibraryMenu {
                 waitForOptionArgument(BOOK_CHECKOUT_OPTION);
             }else{
                 libraryController.sendMessage("No Books Available for Check-Out");
+            }
+        }else if(option.equals(MOVIE_CHECKOUT_OPTION)){
+            if(libraryController.thereAreAvailableMoviesForCheckOut()) {
+                libraryController.sendMessage(LISTING_AVAILABLE_MOVIES_MESSAGE);
+                libraryController.getAvailableMoviesListString();
+                libraryController.sendMessage(MOVIE_CHECKOUT_PROMPT_MESSAGE);
+                waitForOptionArgument(MOVIE_CHECKOUT_OPTION);
+            }else{
+                libraryController.sendMessage("No Movies Available for Check-Out");
             }
         }else if(option.equals(BOOK_CHECKIN_OPTION)){
             if(libraryController.thereAreAvailableBooksForCheckIn()) {
@@ -133,13 +162,18 @@ public abstract class LibraryMenu {
             }else{
                 libraryController.sendMessage("No Books Available for Check-In");
             }
-        }else if(option.equals(QUIT_OPTION)){
+        }else if(option.equals(MOVIE_CHECKIN_OPTION)){
+            if(libraryController.thereAreAvailableMoviesForCheckIn()) {
+                libraryController.sendMessage("Listing Borrowed Movies\n");
+                libraryController.getCheckedOutMoviesAsRows();
+                libraryController.sendMessage(MOVIE_CHECKIN_PROMPT_MESSAGE);
+                waitForOptionArgument(MOVIE_CHECKIN_OPTION);
+            }else{
+                libraryController.sendMessage("No Movies Available for Check-In");
+            }
+        }else if(option.equals(QUIT_OPTION)) {
             opened = false;
             libraryController.sendMessage(QUIT_MESSAGE);
-        }else if(option.equals(MOVIES_LIST_OPTION)){
-            libraryController.getAvailableMoviesListString();
-        }else if (option.equals(MOVIES_DETAILS_OPTION)) {
-            libraryController.getDetailedMovieDataAsColumnsString();
         }
         return optionSelectedMessage;
     }
@@ -159,13 +193,18 @@ public abstract class LibraryMenu {
             int value = Integer.valueOf(argument);
             if(waitingForArgument.equals(BOOK_CHECKOUT_OPTION)){
                 libraryController.checkOutBook(value);
-            }
-            if(waitingForArgument.equals(BOOK_CHECKIN_OPTION)){
+            }else if(waitingForArgument.equals(BOOK_CHECKIN_OPTION)){
                 libraryController.checkInBook(value);
+            }else if(waitingForArgument.equals(BOOK_CHECKOUT_OPTION)){
+                libraryController.checkOutMovie(value);
+            }else if(waitingForArgument.equals(BOOK_CHECKIN_OPTION)){
+                libraryController.checkInMovie(value);
             }
 
-        }catch (NumberFormatException e){
+        }catch (NumberFormatException e ){
             libraryController.sendMessage("Invalid Book Selection");
+        }catch (IllegalAccessException e){
+            libraryController.sendMessage(e.getMessage());
         }
         //clean last selection option
         waitingForArgument  = null;

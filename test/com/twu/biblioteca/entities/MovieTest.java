@@ -17,7 +17,7 @@ public class MovieTest {
     private int validRating = 2;
 
     @Test
-    public void testMovieHasANameAYearADirectorAndARating(){
+    public void movieHasANameAYearADirectorAndARating(){
 
         Movie movie = new Movie(validId,validName,validYear,validDirector,validRating);
 
@@ -35,8 +35,8 @@ public class MovieTest {
     }
 
     @Test
-    public void movieWithRatingEqualToFiveCanBeCreated(){
-        int rating = 5;
+    public void movieWithRatingEqualToTenCanBeCreated(){
+        int rating = 10;
         Movie movie = new Movie(validId,validName,validYear,validDirector,rating);
         assertEquals(rating,movie.getRating());
     }
@@ -49,13 +49,13 @@ public class MovieTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void creatingMovieWithRatingHigherThanFiveShouldThrowAnIllegalArgumentException(){
-        int rating = 6;
+        int rating = 11;
         Movie movie = new Movie(validId,validName,validYear,validDirector,rating);
     }
 
     @Test
-    public void movieWithRatingBetweenZeroAndFiveCanBeCreated(){
-        int rating = 2;
+    public void movieWithRatingBetweenZeroAndTenCanBeCreated(){
+        int rating = 7;
         Movie movie = new Movie(validId,validName,validYear,validDirector,rating);
         assertEquals(rating,movie.getRating());
     }

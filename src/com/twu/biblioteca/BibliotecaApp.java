@@ -1,7 +1,6 @@
 package com.twu.biblioteca;
 
 import com.twu.biblioteca.controllers.LibraryController;
-import com.twu.biblioteca.controllers.CustomerMenu;
 import com.twu.biblioteca.controllers.LibrarianMenu;
 import com.twu.biblioteca.controllers.LibraryMenu;
 import com.twu.biblioteca.presentation.View;

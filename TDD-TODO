@@ -38,14 +38,33 @@
 [x] database initialize method.
 
 
-[] customer view list movies
+[x] customer view list movies
 [x] movies has   have a name
 [x] movies has a year
 [X] movies has a director
 [x] movies have a rating
 [x] rating is integer from 0 to 5
 [x] library menu show movie list after movie list selected
-[] library menu show movie details after movie detailed list selected
+[x] library menu show movie details after movie detailed list selected
+[x] customer checks out a movie
+
+[] customer menu promt for username after welcome message
+[] customer menu promt for password after user inputs username
+
+[x] customer login successful after input valid credentials
+[x] customer login fail after not inputs non existing username  or wrong password
 
 
+[x] username credentials are in format
+[x] app stores logged user after successful login
+[x] app dont stores logged username after failed login
 
+[x] checkout book required logged username
+[x] checkin book required logged username
+
+[x] checkout action register username after successful checked out element.
+[] library displays checked out books with the associated customer
+
+[] refactoring polymorphism check in and out
+[] check if menu has default expected options
+[] refactoring: change view for format helper and split library menu in view and menu

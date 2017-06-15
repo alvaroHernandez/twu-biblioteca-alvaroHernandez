@@ -10,4 +10,8 @@ public interface LibraryElement {
     String getAsSimpleListElement();
 
     HashMap<String,String> getDetails();
+
+    String getCurrentOwner();
+
+    void setCurrentOwner(String currentOwner);
 }

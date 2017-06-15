@@ -13,6 +13,9 @@ public class Movie implements LibraryElement{
     private String director;
     private int rating;
 
+    private String currentOwner;
+
+
     public static final String NAME_FIELD = "name";
     public static final String YEAR_FIELD= "year";
     public static final String DIRECTOR_FIELD= "director";
@@ -31,6 +34,10 @@ public class Movie implements LibraryElement{
         this.rating = rating;
     }
 
+    public void setCurrentOwner(String currentOwner) {
+        this.currentOwner = currentOwner;
+    }
+
     private void validateYear(String year) {
         if(!year.matches("^\\d{4}$")){
             throw new IllegalArgumentException("Year is not a valid four digits string");
@@ -38,7 +45,7 @@ public class Movie implements LibraryElement{
     }
 
     private void validateRating(int rating) {
-        if(rating <0 || rating > 5){
+        if(rating <0 || rating > 10){
             throw new IllegalArgumentException("Rating should be higher that 0 and lower than 5");
         }
     }
@@ -65,7 +72,13 @@ public class Movie implements LibraryElement{
 
     @Override
     public String getAsSimpleListElement() {
-        return String.valueOf(id).concat(". ").concat(name).concat("\n");
+        StringBuilder elementString = new StringBuilder();
+        elementString.append(id).append(". ").append(name);
+        if(currentOwner != null){
+            elementString.append(" - CheckedOutBy: ").append(currentOwner);
+        }
+        elementString.append("\n");
+        return  elementString.toString();
     }
 
     @Override
@@ -76,5 +89,10 @@ public class Movie implements LibraryElement{
         details.put(DIRECTOR_FIELD,director);
         details.put(RATING_FIELD,String.valueOf(rating));
         return details;
+    }
+
+    @Override
+    public String getCurrentOwner() {
+        return getCurrentOwner();
     }
 }

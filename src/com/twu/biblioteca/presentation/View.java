@@ -48,6 +48,7 @@ public class View {
         System.out.println(getLibraryElementListAsRows(database));
     }
 
+
     public String getLibraryElementListAsRows(TreeMap<Integer, ? extends LibraryElement> database){
         StringBuilder listString = new StringBuilder();
         //builds list (rows) with each book: its id + title
@@ -155,4 +156,5 @@ public class View {
     public void printMessage(String message) {
         System.out.println(message);
     }
+
 }

@@ -1,10 +1,8 @@
 package com.twu.biblioteca.services;
 
 
-import com.twu.biblioteca.controllers.LibraryController;
 import com.twu.biblioteca.entities.Book;
-import com.twu.biblioteca.presentation.View;
-import com.twu.biblioteca.services.Catalog;
+import com.twu.biblioteca.entities.User;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -24,6 +22,11 @@ public class CatalogTest {
             "2. TDD by Example\n"+
             "3. Head First Java\n";
 
+    public static final String expectedMovieListResult  =
+            "1. Killswitch\n"+
+            "2. Wonder Woman\n" +
+            "3. Logan\n";
+
     public static final String expectedBookListResultAfterCheckoutBookId2  =
             "1. Building Microservices\n"+
             "3. Head First Java\n";
@@ -32,8 +35,12 @@ public class CatalogTest {
             "1. Building Microservices\n";
 
     public static final String currentlyCheckedOutBooks =
-            "2. TDD by Example\n" +
-            "3. Head First Java\n";
+            "2. TDD by Example - CheckedOutBy: Alvaro\n" +
+            "3. Head First Java - CheckedOutBy: Claudia\n";
+
+    public static final String currentlyCheckedOutMovies =
+            "2. Wonder Woman - CheckedOutBy: Claudia\n" +
+            "3. Logan - CheckedOutBy: Alvaro\n";
 
     public static final String expectedBookDetailsResult  =
             "title                     author        year_published    \n"+
@@ -109,8 +116,8 @@ public class CatalogTest {
     public void availableBookCanBeCheckedOut() throws Exception {
 
         Catalog library = new Catalog();
-
-        assertEquals("Book 'TDD by Example' was successfully checked-out. Thank you! Enjoy the book",library.checkOutBook(2));
+        User loggedUser = new User("Alvaro","123","alvaro@tw.com","Chile","123123");
+        assertEquals("Book 'TDD by Example' was successfully checked-out. Thank you! Enjoy the book",library.checkOutBook(loggedUser.getName(), 2));
     }
 
     @Test
@@ -120,12 +127,12 @@ public class CatalogTest {
         Catalog catalog= new Catalog();
 
         assertEquals(availableBooks.toString(),catalog.getAvailableBooks().toString());
-
-        catalog.checkOutBook(2);
+        User loggedUser = new User("Alvaro","123","alvaro@tw.com","Chile","123123");
+        catalog.checkOutBook(loggedUser.getName(), 2);
         availableBooks.remove(2);
 
         assertEquals(availableBooks.toString(),catalog.getAvailableBooks().toString());
-        catalog.checkOutBook(3);
+        catalog.checkOutBook(loggedUser.getName(), 3);
 
         availableBooks.remove(3);
         assertEquals(availableBooks.toString(),catalog.getAvailableBooks().toString());
@@ -135,9 +142,9 @@ public class CatalogTest {
     @Test
     public void errorMessageIsGivenAfterChoosingInvalidBookForCheckout() throws Exception {
         Catalog catalog = new Catalog();
-        
-        assertEquals("Invalid Book Selection",catalog.checkOutBook(-1));
-        assertEquals("Invalid Book Selection",catalog.checkOutBook(4));
+        User loggedUser = new User("Alvaro","123","alvaro@tw.com","Chile","123123");
+        assertEquals("Invalid Book Selection",catalog.checkOutBook(loggedUser.getName(), -1));
+        assertEquals("Invalid Book Selection",catalog.checkOutBook(loggedUser.getName(), 4));
 
     }
 
@@ -145,9 +152,9 @@ public class CatalogTest {
     @Test
     public void errorMessageIsGivenAfterChoosingBookForCheckoutTwice() throws Exception {
         Catalog library = new Catalog();
-        
-        library.checkOutBook(1);
-        assertEquals("Invalid Book Selection",library.checkOutBook(1));
+        User loggedUser = new User("Alvaro","123","alvaro@tw.com","Chile","123123");
+        library.checkOutBook(loggedUser.getName(), 1);
+        assertEquals("Invalid Book Selection",library.checkOutBook(loggedUser.getName(), 1));
 
     }
 
@@ -155,8 +162,8 @@ public class CatalogTest {
     public void notAvailableBookCanBeCheckedIn() throws Exception {
 
         Catalog library = new Catalog();
-
-        library.checkOutBook(2);
+        User loggedUser = new User("Alvaro","123","alvaro@tw.com","Chile","123123");
+        library.checkOutBook(loggedUser.getName(), 2);
         assertEquals("Book 'TDD by Example' was successfully checked-in. Thank you for returning it!",library.checkInBook(2));
     }
 
@@ -164,8 +171,8 @@ public class CatalogTest {
     public void returnedBookAppearsInAvailableBooksAgain() throws Exception {
         TreeMap<Integer,Book> availableBooks = defaultAvailableBooks();
         Catalog catalog = new Catalog();
-
-        catalog.checkOutBook(2);
+        User loggedUser = new User("Alvaro","123","alvaro@tw.com","Chile","123123");
+        catalog.checkOutBook(loggedUser.getName(), 2);
         availableBooks.remove(2);
         assertEquals(availableBooks.toString(),catalog.getAvailableBooks().toString());
         catalog.checkInBook(2);
