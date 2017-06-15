@@ -1,0 +1,25 @@
+Current
+--------------
+
+
+			Catalog - Book
+          		|
+	View <-- Controller <-- BibliotecaApp
+			 	|
+			 	|
+		  LibraryMenu
+
+
+
+Alternative
+------------------
+
+
+				Catalog - Book
+	          		|
+	Formatter* <-- Controller <-- BibliotecaApp
+				 	|
+				 	|
+			  LibraryMenu  (Presentation Package)
+
+*Formatter returns String to Controller, which sends back to LibraryMenu where is finally printed.

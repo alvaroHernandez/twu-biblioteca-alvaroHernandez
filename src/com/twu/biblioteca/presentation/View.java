@@ -3,6 +3,7 @@ package com.twu.biblioteca.presentation;
 import com.twu.biblioteca.entities.Book;
 import com.twu.biblioteca.entities.LibraryElement;
 import com.twu.biblioteca.entities.Movie;
+import com.twu.biblioteca.entities.User;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -157,4 +158,12 @@ public class View {
         System.out.println(message);
     }
 
+    public void printUserData(User loggedUser) {
+        String userData = "- Name: " + loggedUser.getName()+ "\n"+
+                "- Email: " + loggedUser.getEmail()+ "\n"+
+                "- Address: " + loggedUser.getAddress() + "\n"+
+                "- Phone: " + loggedUser.getPhone();
+
+        System.out.println(userData);
+    }
 }

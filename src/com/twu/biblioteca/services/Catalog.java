@@ -101,10 +101,10 @@ public class Catalog {
         }
     }
 
-    public String checkInBook(int id) {
+    public String checkInBook(String username, int id) {
 
         Book book = checkedOutBooks.get(id);
-        if(book!= null){
+        if(book!= null && username.equals(book.getCurrentOwner())){
             book.setCurrentOwner(null);
             availableBooks.put(id,book);
             checkedOutBooks.remove(id);
@@ -114,10 +114,10 @@ public class Catalog {
         }
     }
 
-    public String checkInMovie(int id) {
+    public String checkInMovie(String username, int id) {
 
         Movie movie = checkedOutMovies.get(id);
-        if(movie!= null){
+        if(movie!= null && username.equals(movie.getCurrentOwner())){
             movie.setCurrentOwner(null);
             availableMovies.put(id,movie);
             checkedOutMovies.remove(id);

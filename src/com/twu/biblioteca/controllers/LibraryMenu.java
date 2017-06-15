@@ -35,6 +35,8 @@ public class LibraryMenu {
     public static final String LISTING_AVAILABLE_MOVIES_MESSAGE = "Listing Available Movies:";
 
     public static final String QUIT_OPTION = "Quit";
+    public static final String SHOW_USER_DATA = "Show User Data";
+
     private InputStream systemIn;
 
     private String name;
@@ -127,7 +129,9 @@ public class LibraryMenu {
         //compose result string foreach possible option
         String optionSelectedMessage = option + " Selected\n";
         libraryController.sendMessage(optionSelectedMessage);
-        if (option.equals(BOOKS_LIST_OPTION)) {
+        if(option.equals(SHOW_USER_DATA)){
+            libraryController.getUserData();
+        }else if (option.equals(BOOKS_LIST_OPTION)) {
             libraryController.getAvailableBooksListString();
         }else if(option.equals(MOVIES_LIST_OPTION)) {
             libraryController.getAvailableMoviesListString();
@@ -195,9 +199,9 @@ public class LibraryMenu {
                 libraryController.checkOutBook(value);
             }else if(waitingForArgument.equals(BOOK_CHECKIN_OPTION)){
                 libraryController.checkInBook(value);
-            }else if(waitingForArgument.equals(BOOK_CHECKOUT_OPTION)){
+            }else if(waitingForArgument.equals(MOVIE_CHECKOUT_OPTION)){
                 libraryController.checkOutMovie(value);
-            }else if(waitingForArgument.equals(BOOK_CHECKIN_OPTION)){
+            }else if(waitingForArgument.equals(MOVIE_CHECKIN_OPTION)){
                 libraryController.checkInMovie(value);
             }
 

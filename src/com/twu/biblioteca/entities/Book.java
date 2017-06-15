@@ -6,18 +6,16 @@ import java.util.LinkedHashMap;
 /**
  * Created by alvarohernandez on 5/25/17.
  */
-public class Book implements LibraryElement{
+public class Book extends LibraryElement{
 
     public static final String TITLE_FIELD = "title";
     public static final String AUTHOR_FIELD= "author";
     public static final String YEAR_PUBLISHED_FIELD= "year_published";
 
-    private int id;
     private String title;
     private String author;
     private String yearPublished;
 
-    private String currentOwner;
 
     public Book(String title, Integer id, String author, String yearPublished) {
         this.id = id;
@@ -68,18 +66,14 @@ public class Book implements LibraryElement{
     }
 
     @Override
+    String getTextIdentifier() {
+        return title;
+    }
+
+    @Override
     public String toString(){
         return this.getTitle();
     }
 
-    @Override
-    public String getAsSimpleListElement() {
-        StringBuilder elementString = new StringBuilder();
-        elementString.append(id).append(". ").append(title);
-        if(currentOwner != null){
-            elementString.append(" - CheckedOutBy: ").append(currentOwner);
-        }
-        elementString.append("\n");
-        return  elementString.toString();
-    }
+
 }

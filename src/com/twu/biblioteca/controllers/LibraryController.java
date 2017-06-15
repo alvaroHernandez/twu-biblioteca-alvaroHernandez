@@ -18,7 +18,6 @@ public class LibraryController {
     private HashMap<String,User> users = new HashMap<String, User>();
     private User loggedUser;
 
-
     public LibraryController(Catalog catalog, View view) {
         this.catalog = catalog;
         this.view = view;
@@ -32,7 +31,7 @@ public class LibraryController {
     }
 
     public void attemptLogin(String username, String password) {
-        if(users.get(username).passwordIs(password)){
+        if(users.get(username) != null && users.get(username).passwordIs(password)){
             loggedUser = users.get(username);
         }
     }
@@ -104,7 +103,7 @@ public class LibraryController {
         if(!userIsLogged()){
             throw  new IllegalAccessException("You have to be logged before to checkIn a book");
         }
-        view.printMessage(catalog.checkInBook(value));
+        view.printMessage(catalog.checkInBook(loggedUser.getName(),value));
     }
 
     public void checkOutMovie(int value) throws IllegalAccessException {
@@ -118,7 +117,7 @@ public class LibraryController {
         if(!userIsLogged()){
             throw  new IllegalAccessException("You have to be logged before to checkIn a movie");
         }
-        view.printMessage(catalog.checkInMovie(value));
+        view.printMessage(catalog.checkInMovie(loggedUser.getName(),value));
     }
 
     public boolean userIsLogged() {
@@ -130,5 +129,9 @@ public class LibraryController {
         if(libraryElement != null)
             return libraryElement.getCurrentOwner();
         return null;
+    }
+
+    public void getUserData() {
+        view.printUserData(loggedUser);
     }
 }

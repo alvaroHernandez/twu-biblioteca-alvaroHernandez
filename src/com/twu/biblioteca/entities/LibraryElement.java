@@ -5,13 +5,27 @@ import java.util.HashMap;
 /**
  * Created by alvarohernandez on 6/13/17.
  */
-public interface LibraryElement {
+public abstract class LibraryElement {
 
-    String getAsSimpleListElement();
+    protected int id;
+    protected String currentOwner;
+    public abstract HashMap<String,String> getDetails();
 
-    HashMap<String,String> getDetails();
+    public abstract String getCurrentOwner();
 
-    String getCurrentOwner();
+    abstract void setCurrentOwner(String currentOwner);
 
-    void setCurrentOwner(String currentOwner);
+    abstract String getTextIdentifier();
+
+    public String getAsSimpleListElement() {
+        StringBuilder elementString = new StringBuilder();
+        elementString.append(id).append(". ").append(getTextIdentifier());
+        if(currentOwner != null){
+            elementString.append(" - CheckedOutBy: ").append(currentOwner);
+        }
+        elementString.append("\n");
+        return  elementString.toString();
+    }
+
+
 }

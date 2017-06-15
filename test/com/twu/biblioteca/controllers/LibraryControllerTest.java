@@ -15,8 +15,8 @@ import static org.junit.Assert.assertFalse;
 public class LibraryControllerTest {
 
 
-    private static final String validUsername = "Alvaro";
-    private static final String validPassword = "123";
+    public static final String validUsername = "Alvaro";
+    public static final String validPassword = "123";
     @Test
     public void thereIsAUserLoggedAfterLoginWithInvalidCredential(){
         LibraryController controller = new LibraryController(new Catalog(), new View());
@@ -76,5 +76,7 @@ public class LibraryControllerTest {
         controller.checkInBook(1);
         assertNull(controller.getCheckedOutLibraryElementAssociatedUsername(1));
     }
+
+
 
 }

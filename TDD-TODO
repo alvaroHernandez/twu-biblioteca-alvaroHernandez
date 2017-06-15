@@ -48,8 +48,7 @@
 [x] library menu show movie details after movie detailed list selected
 [x] customer checks out a movie
 
-[] customer menu promt for username after welcome message
-[] customer menu promt for password after user inputs username
+
 
 [x] customer login successful after input valid credentials
 [x] customer login fail after not inputs non existing username  or wrong password
@@ -63,7 +62,10 @@
 [x] checkin book required logged username
 
 [x] checkout action register username after successful checked out element.
-[] library displays checked out books with the associated customer
+[x] library displays checked out books with the associated customer
+
+[] customer menu promt for username after welcome message
+[] customer menu promt for password after user inputs username
 
 [] refactoring polymorphism check in and out
 [] check if menu has default expected options

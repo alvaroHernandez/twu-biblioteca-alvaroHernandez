@@ -164,7 +164,7 @@ public class CatalogTest {
         Catalog library = new Catalog();
         User loggedUser = new User("Alvaro","123","alvaro@tw.com","Chile","123123");
         library.checkOutBook(loggedUser.getName(), 2);
-        assertEquals("Book 'TDD by Example' was successfully checked-in. Thank you for returning it!",library.checkInBook(2));
+        assertEquals("Book 'TDD by Example' was successfully checked-in. Thank you for returning it!",library.checkInBook("Alvaro",2));
     }
 
     @Test
@@ -175,7 +175,7 @@ public class CatalogTest {
         catalog.checkOutBook(loggedUser.getName(), 2);
         availableBooks.remove(2);
         assertEquals(availableBooks.toString(),catalog.getAvailableBooks().toString());
-        catalog.checkInBook(2);
+        catalog.checkInBook("Alvaro",2);
         assertEquals(defaultAvailableBooks().toString(),catalog.getAvailableBooks().toString());
     }
 
@@ -185,8 +185,8 @@ public class CatalogTest {
 
         Catalog library = new Catalog();
 
-        assertEquals("Invalid Book Selection",library.checkInBook(-1));
-        assertEquals("Invalid Book Selection",library.checkInBook(4));
+        assertEquals("Invalid Book Selection",library.checkInBook("Alvaro",-1));
+        assertEquals("Invalid Book Selection",library.checkInBook("Alvaro",4));
     }
 
     @Test
@@ -194,6 +194,6 @@ public class CatalogTest {
 
         Catalog library = new Catalog();
 
-        assertEquals("Invalid Book Selection",library.checkInBook(3));
+        assertEquals("Invalid Book Selection",library.checkInBook("Alvaro",3));
     }
 }

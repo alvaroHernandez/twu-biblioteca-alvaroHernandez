@@ -33,10 +33,15 @@ public class CustomerMenu extends LibraryMenu {
 
     @Override
     LibraryMenu loadMenu() {
+        addOption(LibraryMenu.SHOW_USER_DATA);
         addOption(LibraryMenu.BOOKS_LIST_OPTION);
         addOption(LibraryMenu.BOOKS_DETAILS_OPTION);
+        addOption(LibraryMenu.BOOK_CHECKOUT_OPTION);
+        addOption(LibraryMenu.BOOK_CHECKIN_OPTION);
         addOption(LibraryMenu.MOVIES_LIST_OPTION);
         addOption(LibraryMenu.MOVIES_DETAILS_OPTION);
+        addOption(LibraryMenu.MOVIE_CHECKOUT_OPTION);
+        addOption(LibraryMenu.MOVIE_CHECKIN_OPTION);
         addOption(LibraryMenu.QUIT_OPTION);
         return this;
     }

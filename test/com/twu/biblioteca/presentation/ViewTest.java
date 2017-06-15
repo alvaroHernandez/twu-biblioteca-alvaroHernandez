@@ -1,8 +1,6 @@
 package com.twu.biblioteca.presentation;
 
-import com.twu.biblioteca.controllers.LibrarianMenu;
-import com.twu.biblioteca.controllers.LibraryController;
-import com.twu.biblioteca.controllers.LibraryMenu;
+import com.twu.biblioteca.controllers.*;
 import com.twu.biblioteca.entities.User;
 import com.twu.biblioteca.services.Catalog;
 import com.twu.biblioteca.services.CatalogTest;
@@ -305,6 +303,25 @@ public class ViewTest {
                         currentlyCheckedOutMovies+"\n"+
                         LibraryMenu.MOVIE_CHECKIN_PROMPT_MESSAGE+"\n",
 
+                outContent.toString()
+        );
+    }
+
+    @Test
+    public void viewDisplayUserInformationAfterSelectShowUserOption() throws IllegalAccessException {
+        Catalog catalog = new Catalog();
+        LibraryController libraryController = new LibraryController(catalog,new View());
+
+        libraryController.attemptLogin(LibraryControllerTest.validUsername,LibraryControllerTest.validPassword);
+
+        libraryController.getUserData();
+
+        assertEquals(
+                expectedWelcomeMessage + "\n" +
+                        "- Name: Alvaro\n"+
+                        "- Email: alvaro@tw.com\n"+
+                        "- Address: Chile\n"+
+                        "- Phone: 123123\n",
                 outContent.toString()
         );
     }

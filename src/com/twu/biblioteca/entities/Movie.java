@@ -5,16 +5,12 @@ import java.util.HashMap;
 /**
  * Created by alvarohernandez on 6/13/17.
  */
-public class Movie implements LibraryElement{
+public class Movie extends LibraryElement{
 
-    private int id;
     private String name;
     private String year;
     private String director;
     private int rating;
-
-    private String currentOwner;
-
 
     public static final String NAME_FIELD = "name";
     public static final String YEAR_FIELD= "year";
@@ -71,14 +67,8 @@ public class Movie implements LibraryElement{
     }
 
     @Override
-    public String getAsSimpleListElement() {
-        StringBuilder elementString = new StringBuilder();
-        elementString.append(id).append(". ").append(name);
-        if(currentOwner != null){
-            elementString.append(" - CheckedOutBy: ").append(currentOwner);
-        }
-        elementString.append("\n");
-        return  elementString.toString();
+    String getTextIdentifier() {
+        return name;
     }
 
     @Override
@@ -93,6 +83,6 @@ public class Movie implements LibraryElement{
 
     @Override
     public String getCurrentOwner() {
-        return getCurrentOwner();
+        return currentOwner;
     }
 }

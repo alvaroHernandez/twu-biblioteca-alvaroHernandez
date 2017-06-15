@@ -27,4 +27,16 @@ public class User {
     public boolean passwordIs(String password) {
         return this.password.equals(password);
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
 }
